@@ -1,0 +1,45 @@
+/* 
+  Localizable.strings
+  UsersApp
+
+  Created by Rafael Douglas on 17/12/22.
+  
+*/
+
+// Mark: - General
+"tableview.refresh.text" = "Buscando dados ...";
+
+// Mark: - Users
+"users.page.title" = "Usuários";
+"users.table.empty" = "Nenhum usuário registrado!";
+
+// Mark: - User Detail
+"userDetail.page.title" = "Detalhe do Usuário";
+
+// Mark: - Favorites
+"favorites.page.title" = "Favorites";
+"favorites.table.empty" = "Nenhum usuário favorito registrado!";
+
+// Mark: - About Me
+"about.me.page.title" = "Sobre Mim";
+"about.me.complete.description" = "Olá me chamo Rafael, sou uma pessoa comunicativa e adoro tecnologias. Possuo mais de 9 anos de experiencia desenvolvendo aplicaçōes web e mais de 5 anos desenvolvendo aplicativos iOS de pequeno a grande porte ao lado de designers, PMs e outros engenheiros sempre tentando construir interfaces bonitas, entregar os melhores resultados para a empresa e uma experiência única para os usuários.";
+"about.me.complete.ios.tools.title" = "Ferramentas IOS: ";
+
+// Mark: - Error Alert
+"error.alert.title" = "Erro";
+"error.alert.description"= "Something is wrong, try later!";
+"error.alert.btn.title"= "Ok";
+
+// Mark: - Accessibility
+"accessibility.users.tableview" = "Lista de usuários";
+"accessibility.user.detail.title" = "Titulo da tela de descrição do usuário";
+"accessibility.user.detail.profile.image" = "Imagem do usuário selecionado";
+"accessibility.user.detail.name" = "Nome do usuário selecionado";
+"accessibility.user.detail.email" = "Email do usuário selecionado";
+"accessibility.about.me.profile" = "Imagem de perfil do desenvolvedor";
+"accessibility.about.me.description" = "Descrição sobre o desenvolvedor";
+"accessibility.about.me.ios.tools.title" = "Titulo da lista de ferramentas IOS";
+"accessibility.about.me.ios.tools" = "Lista de ferramentas IOS já utilizadas";
+"accessibility.favorited.users.tableview" = "Lista de usuários favoritos";
+"accessibility.user.tableview.cell" = "Célula do usuário";
+"accessibility.view.chip" = "Ferramenta IOS";

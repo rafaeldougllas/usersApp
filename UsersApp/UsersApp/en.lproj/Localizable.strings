@@ -1,0 +1,45 @@
+/* 
+  Localizable.strings
+  UsersApp
+
+  Created by Rafael Douglas on 17/12/22.
+  
+*/
+
+// Mark: - General
+"tableview.refresh.text" = "Fetching Data ...";
+
+// Mark: - Users
+"users.page.title" = "Users";
+"users.table.empty" = "No registered user!";
+
+// Mark: - User Detail
+"userDetail.page.title" = "User Detail";
+
+// Mark: - Favorites
+"favorites.page.title" = "Favorites";
+"favorites.table.empty" = "No registered favorited user!";
+
+// Mark: - About Me
+"about.me.page.title" = "About Me";
+"about.me.complete.description" = "Hello, I am Rafael, a communicative person that love technologies. With more than 9 years developing web applications and more than 5 years experience developing small to large-scale iOS apps with designers, PMs, and other engineers always trying to build beautiful interfaces, deliver the best results for the company and a unique experience to the users.";
+"about.me.complete.ios.tools.title" = "IOS Tools: ";
+
+// Mark: - Error Alert
+"error.alert.title" = "Error";
+"error.alert.description"= "Something is wrong, try later!";
+"error.alert.btn.title"= "Ok";
+
+// Mark: - Accessibility
+"accessibility.users.tableview" = "Users List";
+"accessibility.user.detail.title" = "Selected User Detail Title";
+"accessibility.user.detail.profile.image" = "Selected user detail profile image";
+"accessibility.user.detail.name" = "Selected user detail profile name";
+"accessibility.user.detail.email" = "Selected user detail profile email";
+"accessibility.about.me.profile" = "Developer Profile Image";
+"accessibility.about.me.description" = "Description about the developer";
+"accessibility.about.me.ios.tools.title" = "IOS tools title";
+"accessibility.about.me.ios.tools" = "IOS tools list";
+"accessibility.favorited.users.tableview" = "Favorited users list";
+"accessibility.user.tableview.cell" = "User cell";
+"accessibility.view.chip" = "IOS Tool";
