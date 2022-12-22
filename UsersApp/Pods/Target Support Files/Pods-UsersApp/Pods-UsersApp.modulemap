@@ -1,0 +1,6 @@
+module Pods_UsersApp {
+  umbrella header "Pods-UsersApp-umbrella.h"
+
+  export *
+  module * { export * }
+}
