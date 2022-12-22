@@ -7,6 +7,9 @@
 
 <p align="center">
     <table>
+        <th>
+            <h1>Light Mode</h1>
+        </th>
         <tr>
             <td><img width="450" src="Assets/pic1.png"></td>
             <td><img width="450" src="Assets/pic2.png"></td>
@@ -20,15 +23,33 @@
         </tr>
     </table>
 </p>
-
+<br/>
+<p align="center">
+    <table>
+        <th>
+            <h1>Dark Mode</h1>
+        </th>
+        <tr>
+            <td><img width="450" src="Assets/dark-pic1.png"></td>
+            <td><img width="450" src="Assets/dark-pic2.png"></td>
+            <td><img width="450" src="Assets/dark-pic3.png"></td>
+            <td><img width="450" src="Assets/dark-pic4.png"></td>
+        </tr>
+        <tr>
+            <td><img width="450" src="Assets/dark-pic5.png"></td>
+            <td><img width="450" src="Assets/dark-pic6.png"></td>
+            <td><img width="450" src="Assets/dark-pic7.png"></td>
+        </tr>
+    </table>
+</p>
 <p align="center">
   <img width="460" height="300" src="Assets/UsersApp.gif">
 </p>
 
 ## Description
-- The application has 4 main screens: Users, Favorites, About me and details screen, which can be accessed by clicking on any user. (O aplicativo possui 4 telas principais: Usuarios, Favoritos, Sobre mim e tela de detalhes, a qual pode ser acessada clicando em qualquer usuário.)
+- The application has 4 main screens: Users, Favorites, About me and User details screen, which can be accessed by clicking on any user. (O aplicativo possui 4 telas principais: Usuarios, Favoritos, Sobre mim e tela de detalhes do usuário, a qual pode ser acessada clicando em qualquer usuário.)
 
-- On the Users screen, we list the users registered in the API in a table view. Furthermore, we use Kingfisher to load the cell images asynchronously and cached. (Na tela de Usuários, listamos os usuários cadastrados na API em uma table view. Além disso, usamos Kingfisher para carregar as imagens das células de forma assíncrona e cacheada.)
+- On the Users screen, we list the users registered in the API in a tableView. Furthermore, we use Kingfisher to load the cell images asynchronously and cached. (Na tela de Usuários, listamos os usuários cadastrados na API em uma table view. Além disso, usamos Kingfisher para carregar as imagens das células de forma assíncrona e cacheada.)
 
 - On the About Me screen there is a scroll view to enable the visualization of all items. (Na tela de Sobre mim há uma scroll view para possibilitar a visualizacao de todos os itens.)
 
@@ -38,11 +59,11 @@
 
 - API requests were made using Alamofire. And to conform our Model with JSON, we use Coding Keys. (As requisições da API foram realizadas utilizando Alamofire. E para conformar nosso Model com o JSON, utilizamos Coding Keys.)
 
-## Principais Tecnologias
+## Main Technologies
 - Swift and UIKit
 - MVVM Architechture
 - Cocoapods dependency manager
-- Alamofire, Kingfisher, Snapkit, Quick and Nimble
+- Alamofire, Kingfisher, Snapkit
 - Uniting Tests
 
 ## Getting Started

@@ -39,7 +39,7 @@ class MainTabBarViewModel: MainTabBarViewModelProtocol {
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
         appearance.titleTextAttributes = [
-            NSAttributedString.Key.foregroundColor: UIColor.secondary,
+            NSAttributedString.Key.foregroundColor: UIColor.tertiary,
             NSAttributedString.Key.font: UIFont(name: "OpenSans", size: 20) ?? UIFont.systemFont(ofSize: 20)]
         appearance.backgroundColor = .primary
         return appearance
