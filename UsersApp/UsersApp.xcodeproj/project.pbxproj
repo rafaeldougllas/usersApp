@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		37ADA0E1FCF026002CE9FE24 /* libPods-UsersApp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4FB95A6BC01E3A1973BF0A0B /* libPods-UsersApp.a */; };
+		5300366A29574DC400D8F70C /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300366929574DC400D8F70C /* Coordinator.swift */; };
+		5300367229574E1400D8F70C /* MainBaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300367129574E1400D8F70C /* MainBaseCoordinator.swift */; };
+		53003677295756B600D8F70C /* MainCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53003676295756B600D8F70C /* MainCoordinator.swift */; };
+		5300367C2957892F00D8F70C /* DeepLinkBaseCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300367B2957892F00D8F70C /* DeepLinkBaseCoordinator.swift */; };
+		530036812957895300D8F70C /* DeepLinkCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530036802957895300D8F70C /* DeepLinkCoordinator.swift */; };
+		5300368729578D8E00D8F70C /* UsersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300368629578D8E00D8F70C /* UsersCoordinator.swift */; };
+		530036962957995800D8F70C /* FavoritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530036952957995800D8F70C /* FavoritesCoordinator.swift */; };
+		5300369F29579BDE00D8F70C /* AboutMeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5300369E29579BDE00D8F70C /* AboutMeCoordinator.swift */; };
 		531C3BDF293E1A0700069416 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 531C3BE1293E1A0700069416 /* Localizable.strings */; };
 		531C3BEA293E24AD00069416 /* AboutMeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531C3BE9293E24AD00069416 /* AboutMeViewModel.swift */; };
 		531C3BEF293E3C1E00069416 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 531C3BEE293E3C1E00069416 /* FavoritesViewModel.swift */; };
@@ -43,6 +51,7 @@
 		53D62B8329297C4B0020BF8B /* UsersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D62B8229297C4B0020BF8B /* UsersView.swift */; };
 		53D62B88292985F20020BF8B /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D62B87292985F20020BF8B /* UserTableViewCell.swift */; };
 		53D62B902929B1EF0020BF8B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53D62B8F2929B1EF0020BF8B /* Extensions.swift */; };
+		53EDCDD72964C34B00388739 /* DeepLinkOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53EDCDD62964C34B00388739 /* DeepLinkOptions.swift */; };
 		53FFF8F329509C7F00D10C27 /* CoreDataMock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FFF8F229509C7F00D10C27 /* CoreDataMock.swift */; };
 		53FFF8F8295101F100D10C27 /* FavoritesViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FFF8F7295101F100D10C27 /* FavoritesViewModelTests.swift */; };
 		53FFF91829535A4E00D10C27 /* UserDetailViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FFF91729535A4E00D10C27 /* UserDetailViewModelTests.swift */; };
@@ -71,6 +80,14 @@
 		2BACBCE2AC0DD188F86A7511 /* Pods-UsersApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-UsersApp.debug.xcconfig"; path = "Target Support Files/Pods-UsersApp/Pods-UsersApp.debug.xcconfig"; sourceTree = "<group>"; };
 		4C171B52B7BF63C39F02E43A /* libPods-UsersAppTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UsersAppTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4FB95A6BC01E3A1973BF0A0B /* libPods-UsersApp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-UsersApp.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		5300366929574DC400D8F70C /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
+		5300367129574E1400D8F70C /* MainBaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainBaseCoordinator.swift; sourceTree = "<group>"; };
+		53003676295756B600D8F70C /* MainCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainCoordinator.swift; sourceTree = "<group>"; };
+		5300367B2957892F00D8F70C /* DeepLinkBaseCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkBaseCoordinator.swift; sourceTree = "<group>"; };
+		530036802957895300D8F70C /* DeepLinkCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkCoordinator.swift; sourceTree = "<group>"; };
+		5300368629578D8E00D8F70C /* UsersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersCoordinator.swift; sourceTree = "<group>"; };
+		530036952957995800D8F70C /* FavoritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCoordinator.swift; sourceTree = "<group>"; };
+		5300369E29579BDE00D8F70C /* AboutMeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeCoordinator.swift; sourceTree = "<group>"; };
 		531C3BE0293E1A0700069416 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		531C3BE5293E1A2500069416 /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		531C3BE9293E24AD00069416 /* AboutMeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutMeViewModel.swift; sourceTree = "<group>"; };
@@ -114,6 +131,7 @@
 		53D62B8229297C4B0020BF8B /* UsersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UsersView.swift; sourceTree = "<group>"; };
 		53D62B87292985F20020BF8B /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		53D62B8F2929B1EF0020BF8B /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		53EDCDD62964C34B00388739 /* DeepLinkOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeepLinkOptions.swift; sourceTree = "<group>"; };
 		53FFF8F229509C7F00D10C27 /* CoreDataMock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataMock.swift; sourceTree = "<group>"; };
 		53FFF8F7295101F100D10C27 /* FavoritesViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModelTests.swift; sourceTree = "<group>"; };
 		53FFF91729535A4E00D10C27 /* UserDetailViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailViewModelTests.swift; sourceTree = "<group>"; };
@@ -158,6 +176,42 @@
 				F71227C7F62F6BB3FBBB20A7 /* Pods-UsersAppTests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		5300366829574D9600D8F70C /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				5300366929574DC400D8F70C /* Coordinator.swift */,
+				5300367129574E1400D8F70C /* MainBaseCoordinator.swift */,
+				53003676295756B600D8F70C /* MainCoordinator.swift */,
+				5300367B2957892F00D8F70C /* DeepLinkBaseCoordinator.swift */,
+				530036802957895300D8F70C /* DeepLinkCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		5300368529578D6000D8F70C /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				5300368629578D8E00D8F70C /* UsersCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		530036942957991B00D8F70C /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				530036952957995800D8F70C /* FavoritesCoordinator.swift */,
+			);
+			path = Coordinator;
+			sourceTree = "<group>";
+		};
+		5300369D29579BC200D8F70C /* Coordinator */ = {
+			isa = PBXGroup;
+			children = (
+				5300369E29579BDE00D8F70C /* AboutMeCoordinator.swift */,
+			);
+			path = Coordinator;
 			sourceTree = "<group>";
 		};
 		531C3BF8293F708400069416 /* Components */ = {
@@ -242,6 +296,7 @@
 		53CB1AC0292924CA00C25AA7 /* UsersApp */ = {
 			isa = PBXGroup;
 			children = (
+				5300366829574D9600D8F70C /* Coordinator */,
 				53D62B8129297C220020BF8B /* Views */,
 				53CB1B312929680600C25AA7 /* Models */,
 				53CB1B2B292966C400C25AA7 /* Services */,
@@ -299,6 +354,7 @@
 				53D62B8F2929B1EF0020BF8B /* Extensions.swift */,
 				53A19DCC292BB34A009271F9 /* KingfisherLoader.swift */,
 				531C3CC729421C9700069416 /* CustomColorsEnum.swift */,
+				53EDCDD62964C34B00388739 /* DeepLinkOptions.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -335,6 +391,7 @@
 		53D62B6E29297A010020BF8B /* Users */ = {
 			isa = PBXGroup;
 			children = (
+				5300368529578D6000D8F70C /* Coordinator */,
 				53CB1B0E2929293000C25AA7 /* UsersVC.swift */,
 				53D62B7C29297B460020BF8B /* UsersViewModel.swift */,
 			);
@@ -344,6 +401,7 @@
 		53D62B6F29297A0B0020BF8B /* Favorites */ = {
 			isa = PBXGroup;
 			children = (
+				530036942957991B00D8F70C /* Coordinator */,
 				53CB1B132929294800C25AA7 /* FavoritesVC.swift */,
 				531C3BEE293E3C1E00069416 /* FavoritesViewModel.swift */,
 			);
@@ -353,6 +411,7 @@
 		53D62B7029297A130020BF8B /* AboutMe */ = {
 			isa = PBXGroup;
 			children = (
+				5300369D29579BC200D8F70C /* Coordinator */,
 				53CB1B182929295A00C25AA7 /* AboutMeVC.swift */,
 				531C3BE9293E24AD00069416 /* AboutMeViewModel.swift */,
 			);
@@ -572,11 +631,14 @@
 			files = (
 				53D62B7D29297B460020BF8B /* UsersViewModel.swift in Sources */,
 				531C3CC829421C9700069416 /* CustomColorsEnum.swift in Sources */,
+				5300366A29574DC400D8F70C /* Coordinator.swift in Sources */,
 				531C3C5F2941073B00069416 /* UserCoreData.swift in Sources */,
+				53EDCDD72964C34B00388739 /* DeepLinkOptions.swift in Sources */,
 				53CB1B2729293BC300C25AA7 /* ViewCodeProtocol.swift in Sources */,
 				531C3BF4293E3C8A00069416 /* FavoritesView.swift in Sources */,
 				531C3BEA293E24AD00069416 /* AboutMeViewModel.swift in Sources */,
 				53A19DF8292D643E009271F9 /* UserDetailViewModel.swift in Sources */,
+				5300369F29579BDE00D8F70C /* AboutMeCoordinator.swift in Sources */,
 				53CB1B192929295A00C25AA7 /* AboutMeVC.swift in Sources */,
 				531C3BEF293E3C1E00069416 /* FavoritesViewModel.swift in Sources */,
 				53CB1B2D292966DD00C25AA7 /* APIManager.swift in Sources */,
@@ -584,19 +646,25 @@
 				53D62B8329297C4B0020BF8B /* UsersView.swift in Sources */,
 				53CB1ACC292924CA00C25AA7 /* UsersApp.xcdatamodeld in Sources */,
 				53D62B5C292976650020BF8B /* UsersResponse.swift in Sources */,
+				530036962957995800D8F70C /* FavoritesCoordinator.swift in Sources */,
 				53A19DCD292BB34A009271F9 /* KingfisherLoader.swift in Sources */,
 				53D62B6A292979DE0020BF8B /* MainTabBarViewModel.swift in Sources */,
+				5300367C2957892F00D8F70C /* DeepLinkBaseCoordinator.swift in Sources */,
 				53A19DF3292D4A2A009271F9 /* UserDetailView.swift in Sources */,
 				53CB1B0A292927EA00C25AA7 /* MainTabBarVC.swift in Sources */,
 				53CB1B1E2929297E00C25AA7 /* UserDetailVC.swift in Sources */,
 				53CB1B0F2929293000C25AA7 /* UsersVC.swift in Sources */,
 				53D62B88292985F20020BF8B /* UserTableViewCell.swift in Sources */,
 				53CB1B142929294800C25AA7 /* FavoritesVC.swift in Sources */,
+				530036812957895300D8F70C /* DeepLinkCoordinator.swift in Sources */,
 				53CB1AC2292924CA00C25AA7 /* AppDelegate.swift in Sources */,
 				53D62B902929B1EF0020BF8B /* Extensions.swift in Sources */,
+				53003677295756B600D8F70C /* MainCoordinator.swift in Sources */,
 				53D62B612929771F0020BF8B /* Endpoints.swift in Sources */,
+				5300367229574E1400D8F70C /* MainBaseCoordinator.swift in Sources */,
 				531C3BFA293F70A900069416 /* ChipView.swift in Sources */,
 				53CB1AC4292924CA00C25AA7 /* SceneDelegate.swift in Sources */,
+				5300368729578D8E00D8F70C /* UsersCoordinator.swift in Sources */,
 				53A19E00293034A4009271F9 /* AboutMeView.swift in Sources */,
 				53CB1B332929682900C25AA7 /* UserProfile.swift in Sources */,
 			);

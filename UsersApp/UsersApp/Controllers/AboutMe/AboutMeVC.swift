@@ -7,11 +7,12 @@
 
 import UIKit
 
-class AboutMeVC: UIViewController {
+class AboutMeVC: UIViewController, AboutMeBaseCoordinated {
     
     // MARK: - Properties
     let viewModel: AboutMeViewModelProtocol
     let aboutMeView = AboutMeView()
+    var coordinator: AboutMeBaseCoordinator?
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -22,8 +23,9 @@ class AboutMeVC: UIViewController {
     }
     
     // MARK: - Initializers
-    init(viewModel: AboutMeViewModelProtocol) {
+    init(viewModel: AboutMeViewModelProtocol, coordinator: AboutMeBaseCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     

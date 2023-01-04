@@ -7,11 +7,12 @@
 
 import UIKit
 
-class UserDetailVC: UIViewController {
+class UserDetailVC: UIViewController, UsersBaseCoordinated {
     // MARK: - Properties
     let user: UserProfile
     let userDetailViewModel: UserDetailViewModelProtocol
     let userDetailView = UserDetailView()
+    var coordinator: UsersBaseCoordinator?
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -22,9 +23,10 @@ class UserDetailVC: UIViewController {
     }
     
     // MARK: - Initializers
-    init(user: UserProfile) {
+    init(user: UserProfile, coordinator: UsersBaseCoordinator) {
         self.user = user
         self.userDetailViewModel = UserDetailViewModel(user: user)
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     

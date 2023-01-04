@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-
+    var mainCoordinator: MainBaseCoordinator?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -19,7 +19,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(frame: .zero)
         window?.makeKeyAndVisible()
-        window?.rootViewController = MainTabBarVC()
+        mainCoordinator = MainCoordinator()
+        window?.rootViewController = mainCoordinator?.start()
         window?.windowScene = windowScene
     }
 
@@ -54,6 +55,19 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
-
+    func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+        guard let firstUrl = URLContexts.first?.url,
+              let scheme = firstUrl.scheme,
+              scheme.localizedCaseInsensitiveCompare("UsersApp") == .orderedSame,
+              let view = firstUrl.host else {
+            return
+        }
+        
+        var parameters: [String: String] = [:]
+        URLComponents(url: firstUrl, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
+            parameters[$0.name] = $0.value
+        }
+        mainCoordinator?.handleDeepLink(text: view, params: parameters)
+    }
 }
 

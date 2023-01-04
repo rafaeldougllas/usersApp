@@ -4,7 +4,7 @@
 //
 //  Created by Rafael Douglas on 17/12/22.
 //
-
+/*
 import UIKit
 
 class MainTabBarVC: UITabBarController {
@@ -41,5 +41,5 @@ class MainTabBarVC: UITabBarController {
         navController.navigationBar.standardAppearance = viewModel.getNavigationBarAppearance()
         viewModel.setupNavigationBarAdditionalAppearance(navController: navController)
     }
-    
 }
+*/

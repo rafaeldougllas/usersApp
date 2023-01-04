@@ -7,11 +7,12 @@
 
 import UIKit
 
-class UsersVC: UIViewController {
+class UsersVC: UIViewController, UsersBaseCoordinated {
     
     // MARK: - Properties
     let viewModel: UsersViewModelProtocol
     let usersView = UsersView()
+    var coordinator: UsersBaseCoordinator?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -28,8 +29,9 @@ class UsersVC: UIViewController {
     }
     
     // MARK: - Initializers
-    init(viewModel: UsersViewModelProtocol) {
+    init(viewModel: UsersViewModelProtocol, coordinator: UsersBaseCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -88,11 +90,8 @@ extension UsersVC: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension UsersVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let user = viewModel.modelAt(indexPath.row),
-              let navigationController = navigationController else { return }
-        
-        let userDetailVC = UserDetailVC(user: user)
-        navigationController.pushViewController(userDetailVC, animated: true)
+        guard let user = viewModel.modelAt(indexPath.row) else { return }
+        coordinator?.moveTo(flow: .users(.detail), userData: ["user": user])
     }
 }
 // MARK: - UserTableViewCellDelegate

@@ -7,11 +7,12 @@
 
 import UIKit
 
-class FavoritesVC: UIViewController {
+class FavoritesVC: UIViewController, FavoritesBaseCoordinated {
     
     // MARK: - Properties
     let viewModel: FavoritesViewModelProtocol
     let favoritesView = FavoritesView()
+    var coordinator: FavoritesBaseCoordinator?
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -28,8 +29,10 @@ class FavoritesVC: UIViewController {
     }
     
     // MARK: - Initializers
-    init(viewModel: FavoritesViewModelProtocol) {
+    init(viewModel: FavoritesViewModelProtocol,
+         coordinator: FavoritesBaseCoordinator) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -82,9 +85,7 @@ extension FavoritesVC: UITableViewDataSource {
 extension FavoritesVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let user = viewModel.modelAt(indexPath.row) else { return }
-        
-        let userDetailVC = UserDetailVC(user: user)
-        navigationController?.pushViewController(userDetailVC, animated: true)
+        coordinator?.moveTo(flow: .favorites(.detail), userData: ["user": user])
     }
 }
 // MARK: - UserTableViewCellDelegate
