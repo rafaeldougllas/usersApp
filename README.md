@@ -55,13 +55,15 @@
 
 - On the Favorites screen, favorite users that are persisted through Core Data are displayed. We made the Core Data class as a singleton, so that it was instantiated only once and used by the Users and Favorites screen. (Na tela de Favoritos, são exibidos os usuários favoritados que são persistidos por meio do Core Data. Fizemos a classe do Core Data como um singleton, para que fosse instanciado apenas uma vez e utilizado pela tela de Usuários e de Favoritos.)
 
-- As it was possible to bookmark from both screens, we used a delegate inside the Core Data class to notify both ViewModels that there was a change, and the “little star” of favorites should be updated. (Como era possível favoritar de ambas as telas, utilizamos um delegate dentro da classe do Core Data para notificar ambas as ViewModels de que houve uma alteração, e a “estrelinha” de favoritos deveria ser atualizada.)
+- As it was possible to bookmark from both screens, we used a delegate inside the Core Data class to notify both ViewModels that there was a change, and the “little star” of favorites should be updated. (Como era possível favoritar de ambas as telas, utilizamos um delegate dentro da classe do Core Data para notificar ambas as ViewModels de que houve uma alteração, e a “estrelinha” de favoritos deve ser atualizada.)
 
-- API requests were made using Alamofire. And to conform our Model with JSON, we use Coding Keys. (As requisições da API foram realizadas utilizando Alamofire. E para conformar nosso Model com o JSON, utilizamos Coding Keys.)
+- API requests were made using HttpClient class that make requests with URLSession. (As requisições da API foram realizadas utilizando uma classe HttpClient que faz requisicao com URLSession.)
 
 ## Main Technologies
 - Swift and UIKit
 - MVVM Architechture
+- Coordinator Pattern
+- Deeplink with parameters
 - Cocoapods dependency manager
 - Alamofire, Kingfisher, Snapkit
 - Uniting Tests
