@@ -8,16 +8,17 @@
 @testable import UsersApp
 import XCTest
 
-class CoreDataMock: UserCoreDataProtocol {
+final class CoreDataMock: UserCoreDataProtocol {
+    
     var delegates: [UserCoreDataDelegate] = [UserCoreDataDelegate]()
     var favoriteUsers: [FavoriteUser] = [FavoriteUser]()
     var loadedFavoriteUsers = [UserProfile]()
     
-    func loadFavoriteUsers(completion: @escaping () -> ()) {
-        for _ in 1...5 {
-            loadedFavoriteUsers.append(.fixture())
+    func loadUsersFavorited() -> [UsersApp.UserProfile] {
+        for id in 1...5 {
+            loadedFavoriteUsers.append(.fixture(id: id))
         }
-        completion()
+        return loadedFavoriteUsers
     }
     
     func isFavorite(id: Int) -> Bool {
@@ -30,9 +31,5 @@ class CoreDataMock: UserCoreDataProtocol {
     
     func removeFavorite(id: Int) {
         loadedFavoriteUsers = loadedFavoriteUsers.filter { $0.id != id }
-    }
-    
-    func saveChanges() {
-        
     }
 }
