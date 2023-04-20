@@ -13,7 +13,7 @@ public enum Endpoints {
     case users
     case userDetail(Int)
     
-    private var fullPath: String {
+    var fullPath: String {
         var endpoint:String
         switch self {
         case .users:

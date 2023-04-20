@@ -14,21 +14,19 @@ public protocol UserCoreDataDelegate: AnyObject {
 
 public protocol UserCoreDataProtocol: AnyObject {
     var delegates: [UserCoreDataDelegate] { get set }
-    var favoriteUsers: [FavoriteUser] { get set }
-    func loadFavoriteUsers(completion: @escaping () -> ())
+    
+    func loadUsersFavorited() -> [UserProfile]
     func isFavorite(id: Int) -> Bool
     func addFavorite(_ user: UserProfile)
     func removeFavorite(id: Int)
-    func saveChanges()
 }
 
 public class UserCoreData: UserCoreDataProtocol {
     static let shared = UserCoreData()
-    
-    var managedContext: NSManagedObjectContext?
-    
     public var delegates = [UserCoreDataDelegate]()
-    public var favoriteUsers = [FavoriteUser]() {
+    
+    private var managedContext: NSManagedObjectContext?
+    private var favoriteUsers = [FavoriteUser]() {
         didSet {
             delegates.forEach { delegate in
                 delegate.updateFavoriteUsers()
@@ -41,17 +39,15 @@ public class UserCoreData: UserCoreDataProtocol {
             .persistentContainer
             .viewContext
     }
-    
-    public func loadFavoriteUsers(completion: @escaping () -> ()) {
-        guard let managedContext = managedContext else { return }
         
-        let fetchRequest: NSFetchRequest<FavoriteUser> = FavoriteUser.fetchRequest()
-        
-        do {
-            self.favoriteUsers = try managedContext.fetch(fetchRequest)
-            completion()
-        } catch let error as NSError {
-            print("Could not fetch. \(error), \(error.userInfo)")
+    public func loadUsersFavorited() -> [UserProfile] {
+        return favoriteUsers.map { (favoritedUser: FavoriteUser) in
+            UserProfile(id: Int(favoritedUser.id),
+                        email: favoritedUser.email ?? "",
+                        icon: favoritedUser.icon ?? "",
+                        firstName: favoritedUser.firstName ?? "",
+                        lastName: favoritedUser.lastName ?? "",
+                        isFavorite: true)
         }
     }
     
@@ -75,7 +71,9 @@ public class UserCoreData: UserCoreDataProtocol {
         newFavoriteUser.icon = user.icon
         newFavoriteUser.firstName = user.firstName
         newFavoriteUser.lastName = user.lastName
-        self.favoriteUsers.append(newFavoriteUser)
+        favoriteUsers.append(newFavoriteUser)
+        
+        saveChanges()
     }
     
     public func removeFavorite(id: Int) {
@@ -84,18 +82,18 @@ public class UserCoreData: UserCoreDataProtocol {
         
         var count = 0
         
-        for user in self.favoriteUsers {
+        for user in favoriteUsers {
             if user.id == id {
                 let removeUser = user
-                self.favoriteUsers.remove(at: count)
+                favoriteUsers.remove(at: count)
                 managedContext.delete(removeUser)
             }
             count += 1
         }
-        
+        saveChanges()
     }
     
-    public func saveChanges() {
+    private func saveChanges() {
         do {
             try self.managedContext?.save()
         } catch let error as NSError {
