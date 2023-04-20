@@ -5,7 +5,7 @@
 //  Created by Rafael Douglas on 17/12/22.
 //
 
-public struct UserProfile: Codable {
+public struct UserProfile: Decodable {
     let id: Int
     let email: String
     let icon: String
@@ -40,7 +40,7 @@ extension UserProfile {
     static func fixture(
         id: Int = 1,
         email: String = "email@gmail.com",
-        icon: String = "person",
+        icon: String = "https://reqres.in/img/faces/1-image.jpg",
         firstName: String = "Fake",
         lastName: String = "Junior",
         isFavorite: Bool? = false
@@ -52,7 +52,7 @@ extension UserProfile {
                      lastName: lastName)
     }
 }
-// MARK: Fixture
+// MARK: Equatable
 extension UserProfile: Equatable {
     public static func ==(lhs: UserProfile, rhs: UserProfile) -> Bool {
         return lhs.id == rhs.id &&

@@ -8,7 +8,13 @@
 import SnapKit
 import UIKit
 
-class AboutMeView: UIView {
+protocol AboutMeViewProtocol: UIView {
+    func addIosTool(text: String)
+    func setTextsInLabels(description: String,
+                          iosToolsTitle: String)
+}
+
+final class AboutMeView: UIView {
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -69,26 +75,8 @@ class AboutMeView: UIView {
         view.spacing = 4
         return view
     }()
-    
-    // MARK: - Methods
-    public func addIosTool(text: String) {
-        iosToolsStackView.addArrangedSubview(ChipView(text: text))
-    }
-    
-    // MARK: - Properties
-    public var descriptionText: String? {
-        didSet {
-            descriptionLbl.text = descriptionText
-        }
-    }
-    
-    public var iosToolsTitleText: String? {
-        didSet {
-            iosToolsTitleLbl.text = iosToolsTitleText
-        }
-    }
 }
-
+// MARK: ViewCodeProtocol
 extension AboutMeView: ViewCodeProtocol {
     func buildViewHierarchy() {
         addSubview(scroll)
@@ -155,5 +143,18 @@ extension AboutMeView: ViewCodeProtocol {
         iosToolsStackView.isAccessibilityElement = true
         iosToolsStackView.accessibilityLabel = "accessibility.about.me.ios.tools".localized()
         iosToolsStackView.accessibilityIdentifier = "iosToolsList"
+    }
+}
+// MARK: AboutMeViewProtocol
+extension AboutMeView: AboutMeViewProtocol {
+    // MARK: - Methods
+    func addIosTool(text: String) {
+        iosToolsStackView.addArrangedSubview(ChipView(text: text))
+    }
+    
+    func setTextsInLabels(description: String,
+                          iosToolsTitle: String) {
+        descriptionLbl.text = description
+        iosToolsTitleLbl.text = iosToolsTitle
     }
 }

@@ -7,10 +7,10 @@
 
 import UIKit
 
-class ChipView: UIView {
+final class ChipView: UIView {
     
     // MARK: - Initializers
-    public init(text: String) {
+    init(text: String) {
         super.init(frame: .zero)
         setupView()
         textLbl.text = text
@@ -34,7 +34,7 @@ class ChipView: UIView {
     }()
     
     // MARK: - Properties
-    public var text: String? {
+    var text: String? {
         didSet {
             textLbl.text = text
         }

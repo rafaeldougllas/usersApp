@@ -7,12 +7,11 @@
 
 import UIKit
 
-protocol UsersBaseCoordinator: Coordinator {}
+protocol UsersCoordinatorProtocol: CoordinatorProtocol {}
 
-class UsersCoordinator: UsersBaseCoordinator {
-    
+final class UsersCoordinator: UsersCoordinatorProtocol {
     let tabBarViewModel = MainTabBarViewModel()
-    var parentCoordinator: MainBaseCoordinator?
+    var parentCoordinator: MainCoordinatorProtocol?
     
     lazy var rootViewController: UIViewController = UIViewController()
     
@@ -45,7 +44,8 @@ class UsersCoordinator: UsersBaseCoordinator {
     }
     
     func goToUserDetail(user: UserProfile) {
-        let userDetailVC = UserDetailVC(user: user, coordinator: self)
+        let userDetailVC = ControllersFactory.makeUserDetailVC(coordinator: self,
+                                                               user: user)
         navigationRootViewController?.pushViewController(userDetailVC, animated: true)
     }
     

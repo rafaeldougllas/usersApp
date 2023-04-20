@@ -9,10 +9,20 @@ import UIKit
 import SnapKit
 
 protocol FavoritesViewDelegate: AnyObject {
-    func showRefreshControl()
+    func fetchContactsTableData()
 }
 
-class FavoritesView: UIView {
+protocol FavoritesViewProtocol: UIView {
+    var delegate: FavoritesViewDelegate? { get set }
+    
+    func setupTableViewProtocols(delegate: UITableViewDelegate,
+                                 dataSource: UITableViewDataSource)
+    func reloadTableData()
+    func startRefresh()
+    func stopRefresh()
+}
+
+final class FavoritesView: UIView {
     
     // MARK: - Properties
     weak var delegate: FavoritesViewDelegate?
@@ -46,18 +56,8 @@ class FavoritesView: UIView {
     }()
     
     // MARK: - Methods
-    public func setupTableViewProtocols(delegate: UITableViewDelegate,
-                                        dataSource: UITableViewDataSource) {
-        tableView.delegate = delegate
-        tableView.dataSource = dataSource
-    }
-    
-    public func reloadTable() {
-        tableView.reloadData()
-    }
-    
-    @objc public func refreshTableData(_ sender: Any) {
-        delegate?.showRefreshControl()
+    @objc private func refreshTableData(_ sender: Any) {
+        delegate?.fetchContactsTableData()
     }
 }
 
@@ -80,5 +80,36 @@ extension FavoritesView: ViewCodeProtocol {
         tableView.isAccessibilityElement = true
         tableView.accessibilityLabel = "accessibility.favorited.users.tableview".localized()
         tableView.accessibilityIdentifier = "usersFavoritedList"
+    }
+}
+// MARK: - FavoritesViewProtocol
+extension FavoritesView: FavoritesViewProtocol {
+    func setupTableViewProtocols(delegate: UITableViewDelegate,
+                                 dataSource: UITableViewDataSource) {
+        tableView.delegate = delegate
+        tableView.dataSource = dataSource
+    }
+    
+    func reloadTableData() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.tableView.reloadData()
+            self.stopRefresh()
+        }
+    }
+    
+    func startRefresh() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            refreshControl.beginRefreshing()
+        }
+    }
+    
+    func stopRefresh() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            refreshControl.endRefreshing()
+        }
     }
 }

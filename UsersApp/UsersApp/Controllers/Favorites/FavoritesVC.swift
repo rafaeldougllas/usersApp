@@ -7,12 +7,12 @@
 
 import UIKit
 
-class FavoritesVC: UIViewController, FavoritesBaseCoordinated {
+final class FavoritesVC: UIViewController {
     
     // MARK: - Properties
-    let viewModel: FavoritesViewModelProtocol
-    let favoritesView = FavoritesView()
-    var coordinator: FavoritesBaseCoordinator?
+    var viewModel: FavoritesViewModelProtocol
+    let favoritesView: FavoritesViewProtocol
+    
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -22,6 +22,11 @@ class FavoritesVC: UIViewController, FavoritesBaseCoordinated {
         populateView()
     }
     
+    override func loadView() {
+        super.loadView()
+        setupFavoritesView()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         favoritesView.delegate = self
@@ -29,11 +34,12 @@ class FavoritesVC: UIViewController, FavoritesBaseCoordinated {
     }
     
     // MARK: - Initializers
-    init(viewModel: FavoritesViewModelProtocol,
-         coordinator: FavoritesBaseCoordinator) {
+    init(favoritesView: FavoritesViewProtocol,
+         viewModel: FavoritesViewModelProtocol) {
+        self.favoritesView = favoritesView
         self.viewModel = viewModel
-        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -42,18 +48,37 @@ class FavoritesVC: UIViewController, FavoritesBaseCoordinated {
     
     // MARK: - Methods
     private func setupVC() {
-        view = favoritesView
         title = viewModel.getPageTitle()
     }
     
+    private func setupFavoritesView() {
+        favoritesView.setupTableViewProtocols(delegate: self,
+                                              dataSource: self)
+        view = favoritesView
+    }
+    
     private func populateView() {
-        viewModel.setupTableViewProtocols(view: self.favoritesView,
-                                          delegate: self,
-                                          dataSource: self)
-        viewModel.loadFavoritedUsersFromCoreData(completion: { [weak self] in
-            guard let self = self else { return }
-            self.viewModel.reloadData(view: self.favoritesView)
+        viewModel.loadFavoritedUsersFromCoreData()
+    }
+    
+    private func presentError(title: String,
+                              message: String,
+                              btnTitle: String) {
+        guard let navigation = self.navigationController else { return }
+        
+        let dialogMessage = UIAlertController(title: title,
+                                              message: message,
+                                              preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: btnTitle,
+                               style: .default,
+                               handler: { (action) -> Void in
+            navigation.dismiss(animated: false, completion: nil)
         })
+        
+        dialogMessage.addAction(ok)
+        
+        navigation.present(dialogMessage, animated: true, completion: nil)
     }
 }
 // MARK: - UITableViewDataSource
@@ -78,32 +103,44 @@ extension FavoritesVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.heightForRow
+        return viewModel.getHeightForRow()
     }
 }
 // MARK: - UITableViewDelegate
 extension FavoritesVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let user = viewModel.modelAt(indexPath.row) else { return }
-        coordinator?.moveTo(flow: .favorites(.detail), userData: ["user": user])
+        viewModel.didSelect(indexPath: indexPath)
     }
 }
 // MARK: - UserTableViewCellDelegate
 extension FavoritesVC: UserTableViewCellDelegate {
     func addFavoriteTapped(user: UserProfile, indexPath: IndexPath) {}
     func removeFavoriteTapped(user: UserProfile, indexPath: IndexPath) {
-        viewModel.removeFavorited(at: indexPath.row, completion: { [weak self] in
-            guard let self = self else { return }
-            self.viewModel.reloadData(view: self.favoritesView)
-        })
+        viewModel.removeFavorited(at: indexPath.row)
     }
 }
-//MARK: UsersViewDelegate
+//MARK: FavoritesViewDelegate
 extension FavoritesVC: FavoritesViewDelegate {
-    func showRefreshControl() {
-        viewModel.loadFavoritedUsersFromCoreData(completion: { [weak self] in
-            guard let self = self else { return }
-            self.viewModel.reloadData(view: self.favoritesView)
-        })
+    func fetchContactsTableData() {
+        viewModel.loadFavoritedUsersFromCoreData()
+    }
+}
+//MARK: FavoritesViewModelDelegate
+extension FavoritesVC: FavoritesViewModelDelegate {
+    func updateUsersView(with state: StateView) {
+        switch state {
+        case .loading:
+            favoritesView.startRefresh()
+        case .loaded:
+            favoritesView.stopRefresh()
+        case .hasData:
+            favoritesView.reloadTableData()
+        }
+    }
+    
+    func showError(title: String, message: String, btnTitle: String) {
+        presentError(title: title,
+                     message: message,
+                     btnTitle: btnTitle)
     }
 }

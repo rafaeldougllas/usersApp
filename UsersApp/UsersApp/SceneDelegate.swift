@@ -10,7 +10,7 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
-    var mainCoordinator: MainBaseCoordinator?
+    var mainCoordinator: MainCoordinatorProtocol?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
@@ -19,7 +19,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = scene as? UIWindowScene else { return }
         window = UIWindow(frame: .zero)
         window?.makeKeyAndVisible()
-        mainCoordinator = MainCoordinator()
+        mainCoordinator = CoordinatorFactory.makeMainCoordinator()//MainCoordinator()
         window?.rootViewController = mainCoordinator?.start()
         window?.windowScene = windowScene
     }
@@ -67,6 +67,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         URLComponents(url: firstUrl, resolvingAgainstBaseURL: false)?.queryItems?.forEach {
             parameters[$0.name] = $0.value
         }
+        
         mainCoordinator?.handleDeepLink(text: view, params: parameters)
     }
 }

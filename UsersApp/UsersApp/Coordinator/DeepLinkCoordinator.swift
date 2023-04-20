@@ -7,7 +7,7 @@
 
 import Foundation
 
-class DeepLinkCoordinator: DeepLinkBaseCoordinator {
+final class DeepLinkCoordinator: DeepLinkCoordinatorProtocol {
     
     func handleDeeplink(deepLink: String, params: [String : Any]?) {
         if let safeRoute = DeepLinkOptions(rawValue: deepLink) {
@@ -24,9 +24,5 @@ class DeepLinkCoordinator: DeepLinkBaseCoordinator {
         parentCoordinator?.moveTo(flow: .users(.list), userData: params)
     }
     
-    var parentCoordinator: MainBaseCoordinator?
-    
-    init(mainBaseCoordinator: MainBaseCoordinator) {
-        self.parentCoordinator = mainBaseCoordinator
-    }
+    var parentCoordinator: MainCoordinatorProtocol?
 }

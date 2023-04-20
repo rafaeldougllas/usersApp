@@ -9,10 +9,20 @@ import UIKit
 import SnapKit
 
 protocol UsersViewDelegate: AnyObject {
-    func showRefreshControl()
+    func fetchContactsTableData()
 }
 
-class UsersView: UIView {
+protocol UsersViewProtocol: UIView {
+    var delegate: UsersViewDelegate? { get set }
+    
+    func setupTableViewProtocols(delegate: UITableViewDelegate,
+                                 dataSource: UITableViewDataSource)
+    func reloadTableData()
+    func startRefresh()
+    func stopRefresh()
+}
+
+final class UsersView: UIView {
     
     // MARK: - Properties
     weak var delegate: UsersViewDelegate?
@@ -45,20 +55,8 @@ class UsersView: UIView {
         return view
     }()
     
-    // MARK: - Methods
-    public func setupTableViewProtocols(delegate: UITableViewDelegate,
-                                        dataSource: UITableViewDataSource) {
-        tableView.delegate = delegate
-        tableView.dataSource = dataSource
-    }
-    
-    public func reloadTable() {
-        tableView.reloadData()
-        refreshControl.endRefreshing()
-    }
-    
-    @objc public func refreshTableData(_ sender: Any) {
-        delegate?.showRefreshControl()
+    @objc private func refreshTableData(_ sender: Any) {
+        delegate?.fetchContactsTableData()
     }
 }
 // MARK: - ViewCode
@@ -73,12 +71,43 @@ extension UsersView: ViewCodeProtocol {
             make.left.equalToSuperview()
             make.right.equalToSuperview()
             make.bottom.equalToSuperview()
-         }
+        }
     }
     
     func setupAccessibility() {
         tableView.isAccessibilityElement = true
         tableView.accessibilityLabel = "accessibility.users.tableview".localized()
         tableView.accessibilityIdentifier = "usersList"
+    }
+}
+// MARK: - UsersViewProtocol
+extension UsersView: UsersViewProtocol {
+    func setupTableViewProtocols(delegate: UITableViewDelegate,
+                                 dataSource: UITableViewDataSource) {
+        tableView.delegate = delegate
+        tableView.dataSource = dataSource
+    }
+    
+    func reloadTableData() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            
+            self.tableView.reloadData()
+            self.stopRefresh()
+        }
+    }
+    
+    func startRefresh() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            refreshControl.beginRefreshing()
+        }
+    }
+    
+    func stopRefresh() {
+        DispatchQueue.main.async { [weak self] in
+            guard let self = self else { return }
+            refreshControl.endRefreshing()
+        }
     }
 }

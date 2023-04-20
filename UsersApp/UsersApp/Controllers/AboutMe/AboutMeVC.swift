@@ -7,12 +7,11 @@
 
 import UIKit
 
-class AboutMeVC: UIViewController, AboutMeBaseCoordinated {
+final class AboutMeVC: UIViewController {
     
     // MARK: - Properties
-    let viewModel: AboutMeViewModelProtocol
-    let aboutMeView = AboutMeView()
-    var coordinator: AboutMeBaseCoordinator?
+    let aboutMeViewModel: AboutMeViewModelProtocol
+    let aboutMeView: AboutMeViewProtocol
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -22,10 +21,16 @@ class AboutMeVC: UIViewController, AboutMeBaseCoordinated {
         populateView()
     }
     
+    override func loadView() {
+        super.loadView()
+        setupAboutMeView()
+    }
+    
     // MARK: - Initializers
-    init(viewModel: AboutMeViewModelProtocol, coordinator: AboutMeBaseCoordinator) {
-        self.viewModel = viewModel
-        self.coordinator = coordinator
+    init(aboutMeView: AboutMeViewProtocol,
+         aboutMeViewModel: AboutMeViewModelProtocol) {
+        self.aboutMeView = aboutMeView
+        self.aboutMeViewModel = aboutMeViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -35,11 +40,17 @@ class AboutMeVC: UIViewController, AboutMeBaseCoordinated {
     
     // MARK: - Methods
     private func setupVC() {
+        title = aboutMeViewModel.getPageTitle()
+    }
+    
+    private func setupAboutMeView() {
         view = aboutMeView
-        title = viewModel.getPageTitle()
     }
     
     private func populateView() {
-        viewModel.populateView(view: aboutMeView, completion: {})
+        aboutMeView.setTextsInLabels(description: aboutMeViewModel.getDescriptionText(),
+                                     iosToolsTitle: aboutMeViewModel.getIosToolsTitleText())
+        
+        aboutMeViewModel.getIosTools().forEach { aboutMeView.addIosTool(text: $0) }
     }
 }

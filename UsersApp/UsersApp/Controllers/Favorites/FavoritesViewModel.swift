@@ -7,28 +7,35 @@
 
 import UIKit
 
-protocol FavoritesViewModelProtocol {
-    var heightForRow: CGFloat { get set }
-    var coreData: UserCoreDataProtocol { get }
-    var favoriteUsers: [UserProfile] { get set }
-    
-    func getPageTitle() -> String
-    func setupTableViewProtocols(view: FavoritesView,
-                                 delegate: UITableViewDelegate,
-                                 dataSource: UITableViewDataSource)
-    func numberOfRows() -> Int
-    func getEmptyRowsText() -> String
-    func modelAt(_ index: Int) -> UserProfile?
-    func reloadData(view: FavoritesView)
-    func loadFavoritedUsersFromCoreData(completion: @escaping () -> Void)
-    func removeFavorited(at index: Int, completion: @escaping () -> Void)
+protocol FavoritesViewModelDelegate: AnyObject {
+    func updateUsersView(with state: StateView)
+    func showError(title: String,
+                   message: String,
+                   btnTitle: String)
 }
 
-class FavoritesViewModel: FavoritesViewModelProtocol {
+protocol FavoritesViewModelProtocol {
+    var coordinator: FavoritesCoordinatorProtocol? { get set }
+    var delegate: FavoritesViewModelDelegate? { get set }
+    
+    func getHeightForRow() -> CGFloat
+    func getPageTitle() -> String
+    func getEmptyRowsText() -> String
+    func numberOfRows() -> Int
+    func modelAt(_ index: Int) -> UserProfile?
+    func didSelect(indexPath: IndexPath)
+    func loadFavoritedUsersFromCoreData()
+    func removeFavorited(at index: Int)
+}
+
+final class FavoritesViewModel: FavoritesViewModelProtocol {
     //MARK: - Properties
-    public var heightForRow: CGFloat = 112
-    var coreData: UserCoreDataProtocol
-    var favoriteUsers = [UserProfile]()
+    weak var coordinator: FavoritesCoordinatorProtocol?
+    weak var delegate: FavoritesViewModelDelegate?
+    
+    private let heightForRow: CGFloat = 112
+    private var coreData: UserCoreDataProtocol
+    private var favoriteUsers = [UserProfile]()
     private var newCoreDataChanges = true
     private enum texts {
         static let pageTitle = "favorites.page.title".localized()
@@ -42,56 +49,51 @@ class FavoritesViewModel: FavoritesViewModelProtocol {
     }
     
     //MARK: - Methods
-    public func getPageTitle() -> String {
+    func getHeightForRow() -> CGFloat {
+        heightForRow
+    }
+    
+    func getPageTitle() -> String {
         return texts.pageTitle
     }
     
-    public func setupTableViewProtocols(view: FavoritesView,
-                                        delegate: UITableViewDelegate,
-                                        dataSource: UITableViewDataSource) {
-        view.setupTableViewProtocols(delegate: delegate,
-                                     dataSource: dataSource)
-    }
-    
-    public func numberOfRows() -> Int {
-        return favoriteUsers.count
-    }
-    
-    public func getEmptyRowsText() -> String {
+    func getEmptyRowsText() -> String {
         return texts.emptyFavoritedUsersRows
     }
     
-    public func modelAt(_ index: Int) -> UserProfile? {
+    func numberOfRows() -> Int {
+        return favoriteUsers.count
+    }
+    
+    func modelAt(_ index: Int) -> UserProfile? {
         return favoriteUsers[safe: index]
     }
     
-    public func reloadData(view: FavoritesView) {
-        view.reloadTable()
+    func didSelect(indexPath: IndexPath) {
+        guard let user = modelAt(indexPath.row) else { return }
+        coordinator?.moveTo(flow: .favorites(.detail), userData: ["user": user])
     }
     
     //MARK: Core Data Methods
-    public func loadFavoritedUsersFromCoreData(completion: @escaping () -> Void) {
-        guard newCoreDataChanges else { return }
-        
-        favoriteUsers = coreData.favoriteUsers.map { (favoritedUser: FavoriteUser) in
-            UserProfile(id: Int(favoritedUser.id),
-                        email: favoritedUser.email ?? "",
-                        icon: favoritedUser.icon ?? "",
-                        firstName: favoritedUser.firstName ?? "",
-                        lastName: favoritedUser.lastName ?? "",
-                        isFavorite: true)
+    func loadFavoritedUsersFromCoreData() {
+        guard newCoreDataChanges else {
+            delegate?.updateUsersView(with: .loaded)
+            delegate?.updateUsersView(with: .hasData)
+            return
         }
-        
+        delegate?.updateUsersView(with: .loading)
+        favoriteUsers = coreData.loadUsersFavorited()
+        delegate?.updateUsersView(with: .loaded)
+        delegate?.updateUsersView(with: .hasData)
         newCoreDataChanges = false
-        completion()
     }
     
-    public func removeFavorited(at index: Int, completion: @escaping () -> Void) {
+    func removeFavorited(at index: Int) {
         if let favoriteUser = favoriteUsers[safe: index] {
             favoriteUsers.remove(at: index)
             coreData.removeFavorite(id: favoriteUser.id)
+            delegate?.updateUsersView(with: .hasData)
         }
-        completion()
     }
 }
 

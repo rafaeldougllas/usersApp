@@ -8,16 +8,18 @@
 import UIKit
 
 protocol UserDetailViewModelProtocol {
-    var user: UserProfile { get set }
+    var coordinator: UsersCoordinatorProtocol? { get set }
     
     func getPageTitle() -> String
-    func populateView(view: UserDetailView, completion: () -> ())
+    func getUser() -> UserProfile
 }
 
-class UserDetailViewModel: UserDetailViewModelProtocol {
+final class UserDetailViewModel: UserDetailViewModelProtocol {
     //MARK: - Properties
-    var user: UserProfile
-    public enum texts {
+    weak var coordinator: UsersCoordinatorProtocol?
+    
+    private var user: UserProfile
+    private enum texts {
         static let pageTitle = "userDetail.page.title".localized()
     }
     
@@ -27,12 +29,11 @@ class UserDetailViewModel: UserDetailViewModelProtocol {
     }
     
     //MARK: - Methods
-    public func getPageTitle() -> String {
+    func getPageTitle() -> String {
         return texts.pageTitle
     }
     
-    public func populateView(view: UserDetailView, completion: () -> ()) {
-        view.populateView(user: self.user)
-        completion()
+    func getUser() -> UserProfile {
+        return user
     }
 }

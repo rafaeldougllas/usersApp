@@ -11,9 +11,9 @@ import UIKit
 public struct KingfisherLoader {
     private init() {}
     
-    public static let shared = KingfisherLoader()
+    static let shared = KingfisherLoader()
     
-    public func setImage(imageView: UIImageView,
+    func setImage(imageView: UIImageView,
                          from url: URL?,
                          placeholderImage: UIImage?,
                          options: KingfisherOptionsInfo? = nil,
@@ -28,7 +28,7 @@ public struct KingfisherLoader {
         })
     }
     
-    public func clearMemoryCache() {
+    func clearMemoryCache() {
         KingfisherManager.shared.cache.clearCache()
     }
 }

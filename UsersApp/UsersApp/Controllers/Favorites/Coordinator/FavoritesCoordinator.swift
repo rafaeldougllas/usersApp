@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol FavoritesBaseCoordinator: Coordinator {}
+protocol FavoritesCoordinatorProtocol: CoordinatorProtocol { }
 
-class FavoritesCoordinator: FavoritesBaseCoordinator {
+final class FavoritesCoordinator: FavoritesCoordinatorProtocol {
 
-    var parentCoordinator: MainBaseCoordinator?
+    var parentCoordinator: MainCoordinatorProtocol?
     let tabBarViewModel = MainTabBarViewModel()
     
     lazy var rootViewController: UIViewController = UIViewController()

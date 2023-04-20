@@ -27,31 +27,36 @@ enum AboutMeScreen {
     case home
 }
 
-class MainCoordinator: MainBaseCoordinator {
+final class MainCoordinator: MainCoordinatorProtocol {
+    let tabBarViewModel: MainTabBarViewModelProtocol
+    var parentCoordinator: MainCoordinatorProtocol?
+    var usersCoordinator: UsersCoordinatorProtocol
+    var favoritesCoordinator: FavoritesCoordinatorProtocol
+    var aboutMeCoordinator: AboutMeCoordinatorProtocol
+    var deepLinkCoordinator: DeepLinkCoordinatorProtocol
+    var rootViewController: UIViewController
     
-    var parentCoordinator: MainBaseCoordinator?
-    let tabBarViewModel = MainTabBarViewModel()
+    init(tabBarViewModel: MainTabBarViewModelProtocol,
+         usersCoordinator: UsersCoordinatorProtocol,
+         favoritesCoordinator: FavoritesCoordinatorProtocol,
+         aboutMeCoordinator: AboutMeCoordinatorProtocol,
+         deepLinkCoordinator: DeepLinkCoordinatorProtocol,
+         rootViewController: UIViewController = UITabBarController()) {
+        self.tabBarViewModel = tabBarViewModel
+        self.usersCoordinator = usersCoordinator
+        self.favoritesCoordinator = favoritesCoordinator
+        self.aboutMeCoordinator = aboutMeCoordinator
+        self.deepLinkCoordinator = deepLinkCoordinator
+        self.rootViewController = rootViewController
+    }
     
-    lazy var usersCoordinator: UsersBaseCoordinator = UsersCoordinator()
-    lazy var favoritesCoordinator: FavoritesBaseCoordinator = FavoritesCoordinator()
-    lazy var aboutMeCoordinator: AboutMeBaseCoordinator = AboutMeCoordinator()
-    lazy var deepLinkCoordinator: DeepLinkBaseCoordinator = DeepLinkCoordinator(mainBaseCoordinator: self)
-    
-    lazy var rootViewController: UIViewController  = UITabBarController()
-    
+    // MARK: - Methods
     func start() -> UIViewController {
-        
         let usersVC = usersCoordinator.start()
-        //usersVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "homekit"), tag: 0)
-        usersCoordinator.parentCoordinator = self
-        
         let favoritesVC = favoritesCoordinator.start()
-        //favoritesVC.tabBarItem = UITabBarItem(title: "Orders", image: UIImage(systemName: "doc.plaintext"), tag: 1)
-        favoritesCoordinator.parentCoordinator = self
-        
         let aboutMeVC = aboutMeCoordinator.start()
-        //aboutMeVC.tabBarItem = UITabBarItem(title: "Orders", image: UIImage(systemName: "doc.plaintext"), tag: 2)
-        aboutMeCoordinator.parentCoordinator = self
+        
+        setupParentsCoordinator()
         
         (rootViewController as? UITabBarController)?.viewControllers = [usersVC, favoritesVC, aboutMeVC]
         (rootViewController as? UITabBarController)?.tabBar.standardAppearance = tabBarViewModel.getTabBarAppearance()
@@ -70,6 +75,24 @@ class MainCoordinator: MainBaseCoordinator {
         }
     }
     
+    func handleDeepLink(text: String, params: [String : Any]?) {
+        deepLinkCoordinator.handleDeeplink(deepLink: text, params: params)
+    }
+    
+    func resetToRoot() -> Self {
+        usersCoordinator.resetToRoot(animated: false)
+        moveTo(flow: .users(.list), userData: nil)
+        return self
+    }
+    
+    // MARK: - Private Methods
+    private func setupParentsCoordinator() {
+        usersCoordinator.parentCoordinator = self
+        favoritesCoordinator.parentCoordinator = self
+        aboutMeCoordinator.parentCoordinator = self
+        deepLinkCoordinator.parentCoordinator = self
+    }
+    
     private func goToUsersFlow(_ flow: AppFlow, userData: [String : Any]?) {
         usersCoordinator.moveTo(flow: flow, userData: userData)
         (rootViewController as? UITabBarController)?.selectedIndex = 0
@@ -83,15 +106,5 @@ class MainCoordinator: MainBaseCoordinator {
     private func goToAboutMeFlow(_ flow: AppFlow, userData: [String : Any]?) {
         aboutMeCoordinator.moveTo(flow: flow, userData: userData)
         (rootViewController as? UITabBarController)?.selectedIndex = 2
-    }
-    
-    func handleDeepLink(text: String, params: [String : Any]?) {
-        deepLinkCoordinator.handleDeeplink(deepLink: text, params: params)
-    }
-    
-    func resetToRoot() -> Self {
-        usersCoordinator.resetToRoot(animated: false)
-        moveTo(flow: .users(.list), userData: nil)
-        return self
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Coordinator.swift
+//  CoordinatorProtocol.swift
 //  UsersApp
 //
 //  Created by Rafael Douglas on 24/12/22.
@@ -7,18 +7,19 @@
 
 import UIKit
 
-protocol FlowCoordinator: AnyObject {
-    var parentCoordinator: MainBaseCoordinator? { get set }
+protocol FlowCoordinatorProtocol: AnyObject {
+    var parentCoordinator: MainCoordinatorProtocol? { get set }
 }
 
-protocol Coordinator: FlowCoordinator {
+protocol CoordinatorProtocol: FlowCoordinatorProtocol {
     var rootViewController: UIViewController { get set }
+    
     func start() -> UIViewController
     func moveTo(flow: AppFlow, userData: [String: Any]?)
     @discardableResult func resetToRoot(animated: Bool) -> Self
 }
 
-extension Coordinator {
+extension CoordinatorProtocol {
     var navigationRootViewController: UINavigationController? {
         get {
             (rootViewController as? UINavigationController)

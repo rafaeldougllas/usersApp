@@ -7,12 +7,10 @@
 
 import UIKit
 
-class UserDetailVC: UIViewController, UsersBaseCoordinated {
+final class UserDetailVC: UIViewController {
     // MARK: - Properties
-    let user: UserProfile
     let userDetailViewModel: UserDetailViewModelProtocol
-    let userDetailView = UserDetailView()
-    var coordinator: UsersBaseCoordinator?
+    let userDetailView: UserDetailViewProtocol
 
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -22,11 +20,15 @@ class UserDetailVC: UIViewController, UsersBaseCoordinated {
         populateView()
     }
     
+    override func loadView() {
+        setupUserDetailView()
+    }
+    
     // MARK: - Initializers
-    init(user: UserProfile, coordinator: UsersBaseCoordinator) {
-        self.user = user
-        self.userDetailViewModel = UserDetailViewModel(user: user)
-        self.coordinator = coordinator
+    init(userDetailView: UserDetailViewProtocol,
+         userDetailViewModel: UserDetailViewModelProtocol) {
+        self.userDetailView = userDetailView
+        self.userDetailViewModel = userDetailViewModel
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -36,11 +38,14 @@ class UserDetailVC: UIViewController, UsersBaseCoordinated {
     
     // MARK: - Methods
     private func setupVC() {
-        view = userDetailView
         title = userDetailViewModel.getPageTitle()
     }
     
     private func populateView() {
-        userDetailViewModel.populateView(view: self.userDetailView, completion: {})
+        userDetailView.populateView(user: userDetailViewModel.getUser())
+    }
+    
+    private func setupUserDetailView() {
+        view = userDetailView
     }
 }

@@ -7,11 +7,11 @@
 
 import UIKit
 
-protocol AboutMeBaseCoordinator: Coordinator {}
+protocol AboutMeCoordinatorProtocol: CoordinatorProtocol {}
 
-class AboutMeCoordinator: AboutMeBaseCoordinator {
+final class AboutMeCoordinator: AboutMeCoordinatorProtocol {
 
-    var parentCoordinator: MainBaseCoordinator?
+    var parentCoordinator: MainCoordinatorProtocol?
     let tabBarViewModel = MainTabBarViewModel()
     
     lazy var rootViewController: UIViewController = UIViewController()

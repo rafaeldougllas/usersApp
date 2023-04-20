@@ -8,7 +8,11 @@
 import SnapKit
 import UIKit
 
-class UserDetailView: UIView {
+protocol UserDetailViewProtocol: UIView {
+    func populateView(user: UserProfile)
+}
+
+final class UserDetailView: UIView {
     
     // MARK: - Initializers
     override init(frame: CGRect) {
@@ -61,27 +65,6 @@ class UserDetailView: UIView {
         view.backgroundColor = .secondary
         return view
     }()
-    
-    // MARK: - Methods
-    public func populateView(user: UserProfile) {
-        let fullname = "\(user.lastName), \(user.firstName)"
-        nameLbl.attributedText = fullname.getBoldAttributedString(boldString: user.lastName)
-        emailLbl.text = user.email
-        
-        KingfisherLoader.shared.setImage(imageView: profileImg,
-                                         from: URL(string: user.icon),
-                                         placeholderImage: UIImage(systemName: "person"),
-                                         completion: { [weak self] result in
-                                            guard let self = self else { return }
-                                            
-                                            switch result {
-                                            case .success():
-                                                self.profileImg.backgroundColor = .secondary
-                                            case .failure(_):
-                                                self.profileImg.backgroundColor = .secondary
-                                            }
-                                         })
-    }
 }
 // MARK: - ViewCode
 extension UserDetailView: ViewCodeProtocol {
@@ -112,7 +95,7 @@ extension UserDetailView: ViewCodeProtocol {
         titleLbl.isAccessibilityElement = true
         titleLbl.accessibilityLabel = "accessibility.user.detail.title".localized()
         titleLbl.accessibilityIdentifier = "userDetailTitle"
-    
+        
         profileImg.isAccessibilityElement = true
         profileImg.accessibilityLabel = "accessibility.user.detail.profile.image".localized()
         profileImg.accessibilityIdentifier = "userDetailProfileImage"
@@ -125,5 +108,27 @@ extension UserDetailView: ViewCodeProtocol {
         emailLbl.isAccessibilityElement = true
         emailLbl.accessibilityLabel = "accessibility.user.detail.email".localized()
         emailLbl.accessibilityIdentifier = "userDetailEmail"
+    }
+}
+// MARK: - UserDetailViewProtocol
+extension UserDetailView: UserDetailViewProtocol {
+    func populateView(user: UserProfile) {
+        let fullname = "\(user.lastName), \(user.firstName)"
+        nameLbl.attributedText = fullname.getBoldAttributedString(boldString: user.lastName)
+        emailLbl.text = user.email
+        
+        KingfisherLoader.shared.setImage(imageView: profileImg,
+                                         from: URL(string: user.icon),
+                                         placeholderImage: UIImage(systemName: "person"),
+                                         completion: { [weak self] result in
+            guard let self = self else { return }
+            
+            switch result {
+            case .success():
+                self.profileImg.backgroundColor = .secondary
+            case .failure(_):
+                self.profileImg.backgroundColor = .secondary
+            }
+        })
     }
 }

@@ -7,12 +7,11 @@
 
 import UIKit
 
-class UsersVC: UIViewController, UsersBaseCoordinated {
+final class UsersVC: UIViewController {
     
     // MARK: - Properties
-    let viewModel: UsersViewModelProtocol
-    let usersView = UsersView()
-    var coordinator: UsersBaseCoordinator?
+    var viewModel: UsersViewModelProtocol
+    var usersView: UsersViewProtocol
     
     // MARK: - Life Cycle
     override func viewDidLoad() {
@@ -22,6 +21,11 @@ class UsersVC: UIViewController, UsersBaseCoordinated {
         populateView()
     }
     
+    override func loadView() {
+        super.loadView()
+        setupUserView()
+    }
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         usersView.delegate = self
@@ -29,10 +33,12 @@ class UsersVC: UIViewController, UsersBaseCoordinated {
     }
     
     // MARK: - Initializers
-    init(viewModel: UsersViewModelProtocol, coordinator: UsersBaseCoordinator) {
+    init(usersView: UsersViewProtocol,
+         viewModel: UsersViewModelProtocol) {
+        self.usersView = usersView
         self.viewModel = viewModel
-        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -41,25 +47,37 @@ class UsersVC: UIViewController, UsersBaseCoordinated {
     
     // MARK: - Methods
     private func setupVC() {
-        view = usersView
         title = viewModel.getPageTitle()
     }
     
-    private func populateView() {
-        viewModel.setupTableViewProtocols(view: self.usersView,
-                                          delegate: self,
+    private func setupUserView() {
+        usersView.setupTableViewProtocols(delegate: self,
                                           dataSource: self)
-        viewModel.fetchUsers(completion: { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success():
-                self.viewModel.reloadData(view: self.usersView)
-            case .failure(_):
-                guard let navigation = self.navigationController else { return }
-                self.viewModel.presentError(navigation: navigation, completion: nil)
-            }
+        view = usersView
+    }
+    
+    private func populateView() {
+        viewModel.fetchUsers()
+    }
+    
+    private func presentError(title: String,
+                              message: String,
+                              btnTitle: String) {
+        guard let navigation = self.navigationController else { return }
+        
+        let dialogMessage = UIAlertController(title: title,
+                                              message: message,
+                                              preferredStyle: .alert)
+        
+        let ok = UIAlertAction(title: btnTitle,
+                               style: .default,
+                               handler: { (action) -> Void in
+            navigation.dismiss(animated: false, completion: nil)
         })
+        
+        dialogMessage.addAction(ok)
+        
+        navigation.present(dialogMessage, animated: true, completion: nil)
     }
 }
 // MARK: - UITableViewDataSource
@@ -84,33 +102,50 @@ extension UsersVC: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return viewModel.heightForRow
+        return viewModel.getHeightForRow()
     }
 }
 // MARK: - UITableViewDelegate
 extension UsersVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let user = viewModel.modelAt(indexPath.row) else { return }
-        coordinator?.moveTo(flow: .users(.detail), userData: ["user": user])
+        viewModel.didSelect(indexPath: indexPath)
     }
 }
 // MARK: - UserTableViewCellDelegate
 extension UsersVC: UserTableViewCellDelegate {
     func addFavoriteTapped(user: UserProfile, indexPath: IndexPath) {
-        viewModel.addFavorited(view: usersView, user: user, indexPath: indexPath)
+        viewModel.addFavorited(user: user, indexPath: indexPath)
     }
     
     func removeFavoriteTapped(user: UserProfile, indexPath: IndexPath) {
-        viewModel.removeFavorited(view: usersView, user: user, indexPath: indexPath)
+        viewModel.removeFavorited(user: user, indexPath: indexPath)
     }
 }
 
 //MARK: UsersViewDelegate
 extension UsersVC: UsersViewDelegate {
-    func showRefreshControl() {
-        viewModel.fetchUsers(completion: { [weak self] _ in
-            guard let self = self else { return }
-            self.viewModel.reloadData(view: self.usersView)
-        })
+    func fetchContactsTableData() {
+        viewModel.fetchUsers()
+    }
+}
+//MARK: UsersViewDelegate
+extension UsersVC: UsersViewModelDelegate {
+    func showError(title: String,
+                   message: String,
+                   btnTitle: String) {
+        presentError(title: title,
+                     message: message,
+                     btnTitle: btnTitle)
+    }
+    
+    func updateUsersView(with state: StateView) {
+        switch state {
+        case .loading:
+            usersView.startRefresh()
+        case .loaded:
+            usersView.stopRefresh()
+        case .hasData:
+            usersView.reloadTableData()
+        }
     }
 }

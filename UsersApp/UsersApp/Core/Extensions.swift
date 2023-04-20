@@ -8,14 +8,14 @@
 import SwiftUI
 import UIKit
 
-//MARK: Collection
+// MARK: - Collection
 public extension Collection {
     /// Returns the element at the specified index if it is within bounds, otherwise nil.
     subscript(safe index: Index) -> Element? {
         return indices.contains(index) ? self[index] : nil
     }
 }
-//MARK: MutableCollection
+// MARK: - MutableCollection
 public extension MutableCollection {
     subscript(safe index: Index) -> Element? {
         get {
@@ -29,7 +29,7 @@ public extension MutableCollection {
         }
     }
 }
-//MARK: NSObject
+// MARK: - NSObject
 public extension NSObject {
     static var className: String {
         return NSStringFromClass(self)
@@ -37,7 +37,7 @@ public extension NSObject {
             .last ?? NSStringFromClass(self)
     }
 }
-//MARK: String
+// MARK: - String
 public extension String {
     func localized(tableName: String? = nil,
                           bundle: Bundle = .main,
@@ -65,7 +65,7 @@ public extension String {
         return attributedString
     }
 }
-//MARK: UITableView
+// MARK: - UITableView
 public extension UITableView {
     func setEmptyMessage(_ message: String) {
         let messageLabel = UILabel(frame: CGRect(x: 0,
@@ -88,7 +88,7 @@ public extension UITableView {
         self.separatorStyle = .singleLine
     }
 }
-// MARK: UIColor
+// MARK: - UIColor
 public extension UIColor {
     static var primary: UIColor { UIColor(named: CustomColors.primary.rawValue) ?? .red }
     static var secondary: UIColor { UIColor(named: CustomColors.secondary.rawValue) ?? .red }

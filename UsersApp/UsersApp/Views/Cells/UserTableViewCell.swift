@@ -7,12 +7,14 @@
 
 import UIKit
 
-public protocol UserTableViewCellDelegate: AnyObject {
-    func addFavoriteTapped(user: UserProfile, indexPath: IndexPath)
-    func removeFavoriteTapped(user: UserProfile, indexPath: IndexPath)
+protocol UserTableViewCellDelegate: AnyObject {
+    func addFavoriteTapped(user: UserProfile,
+                           indexPath: IndexPath)
+    func removeFavoriteTapped(user: UserProfile,
+                              indexPath: IndexPath)
 }
 
-public class UserTableViewCell: UITableViewCell {
+final class UserTableViewCell: UITableViewCell {
     
     // MARK: - Initializers
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -56,9 +58,9 @@ public class UserTableViewCell: UITableViewCell {
     }()
     
     // MARK: - Methods
-    public func setup(indexPath: IndexPath,
-                      delegate: UserTableViewCellDelegate,
-                      user: UserProfile) {
+    func setup(indexPath: IndexPath,
+               delegate: UserTableViewCellDelegate,
+               user: UserProfile) {
         self.indexPath = indexPath
         self.delegate = delegate
         self.user = user
@@ -108,7 +110,7 @@ public class UserTableViewCell: UITableViewCell {
         }
     }
 }
-
+// MARK: ViewCodeProtocol
 extension UserTableViewCell: ViewCodeProtocol {
     func buildViewHierarchy() {
         contentView.addSubview(icon)

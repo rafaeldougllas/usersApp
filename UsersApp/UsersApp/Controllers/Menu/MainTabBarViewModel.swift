@@ -11,15 +11,12 @@ protocol MainTabBarViewModelProtocol {
     func getTabBarAppearance() -> UITabBarAppearance
     func getNavigationBarAppearance() -> UINavigationBarAppearance
     func setupNavigationBarAdditionalAppearance(navController: UINavigationController)
-    func getUsersNavigationController(coordinator: UsersBaseCoordinator) -> UINavigationController
-    func getFavoritedUsersNavigationController(coordinator: FavoritesBaseCoordinator) -> UINavigationController
-    func getAboutMeNavigationController(coordinator: AboutMeBaseCoordinator) -> UINavigationController
+    func getUsersNavigationController(coordinator: UsersCoordinatorProtocol) -> UINavigationController
+    func getFavoritedUsersNavigationController(coordinator: FavoritesCoordinatorProtocol) -> UINavigationController
+    func getAboutMeNavigationController(coordinator: AboutMeCoordinatorProtocol) -> UINavigationController
 }
 
-class MainTabBarViewModel: MainTabBarViewModelProtocol {
-    //MARK: - Initialization
-    init() {}
-    
+final class MainTabBarViewModel: MainTabBarViewModelProtocol {    
     //MARK: - Methods
     func getTabBarAppearance() -> UITabBarAppearance {
         let tabBarAppearance = UITabBarAppearance()
@@ -53,11 +50,9 @@ class MainTabBarViewModel: MainTabBarViewModelProtocol {
         navController.navigationBar.layer.shadowOpacity = 0.15
     }
     
-    func getUsersNavigationController(coordinator: UsersBaseCoordinator) -> UINavigationController {
-        let apiManager = APIManager()
-        let usersViewModel = UsersViewModel(apiManager: apiManager)
-        let usersVC = UsersVC(viewModel: usersViewModel, coordinator: coordinator)
-        let usersNav = UINavigationController(rootViewController: usersVC)
+    func getUsersNavigationController(coordinator: UsersCoordinatorProtocol) -> UINavigationController {
+        
+        let usersNav = UINavigationController(rootViewController: ControllersFactory.makeUsersVC(coordinator: coordinator))
         usersNav.tabBarItem = UITabBarItem(title: "Users",
                                            image: UIImage(systemName: "person.3")?.withTintColor(.secondary,
                                                                                                  renderingMode: .alwaysOriginal),
@@ -67,10 +62,9 @@ class MainTabBarViewModel: MainTabBarViewModelProtocol {
         return usersNav
     }
     
-    func getFavoritedUsersNavigationController(coordinator: FavoritesBaseCoordinator) -> UINavigationController {
-        let favoritesViewModel = FavoritesViewModel()
-        let favoritesVC = FavoritesVC(viewModel: favoritesViewModel, coordinator: coordinator)
-        let favoritesNav = UINavigationController(rootViewController: favoritesVC)
+    func getFavoritedUsersNavigationController(coordinator: FavoritesCoordinatorProtocol) -> UINavigationController {
+        
+        let favoritesNav = UINavigationController(rootViewController: ControllersFactory.makeFavoritesVC(coordinator: coordinator))
         favoritesNav.tabBarItem = UITabBarItem(title: "Favoritos",
                                                image: UIImage(systemName: "star.circle")?.withTintColor(.secondary,
                                                                                                         renderingMode: .alwaysOriginal),
@@ -80,10 +74,9 @@ class MainTabBarViewModel: MainTabBarViewModelProtocol {
         return favoritesNav
     }
     
-    func getAboutMeNavigationController(coordinator: AboutMeBaseCoordinator) -> UINavigationController {
-        let aboutMeViewModel = AboutMeViewModel()
-        let aboutMeVC = AboutMeVC(viewModel: aboutMeViewModel, coordinator: coordinator)
-        let aboutMeNav = UINavigationController(rootViewController: aboutMeVC)
+    func getAboutMeNavigationController(coordinator: AboutMeCoordinatorProtocol) -> UINavigationController {
+        
+        let aboutMeNav = UINavigationController(rootViewController: ControllersFactory.makeAboutMeVC(coordinator: coordinator))
         aboutMeNav.tabBarItem = UITabBarItem(title: "About Me",
                                              image: UIImage(systemName: "person.circle")?.withTintColor(.secondary,
                                                                                                         renderingMode: .alwaysOriginal),
